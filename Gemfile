@@ -1,0 +1,6 @@
+source 'https://rubygems.org'
+gem 'rack'
+gem 'sinatra'
+gem 'line-bot-api'
+gem 'strftime'
+gem 'activesupport'
