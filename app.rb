@@ -52,7 +52,11 @@ post '/webhooked' do
             if event['source']['type'] == 'user'
                 profile = client.get_profile(event['source']['userId'])
                 profile = JSON.parse(profile.read_body)
-                reply_text(event, "Hai #{profile['displayName']}, Terimakasih telah menambahkan kami sebagai teman. \n\nKalian mau tau ga tentang kami? \n\nKalo kalian ingin tau mengenai kami kalian bisa kenalan dengan kami dengan ketik \"about us\". \n\nTapi sebelum itu kalian bisa ketik \"country list\" untuk melihat semua daftar negara mana saja yang terkena dampak virus ini sob. \n\nDan kalian bisa ketik \"negara tujuan\" atau \"provinsi tujuan\" untuk mengetahui berapa banyaknya orang yang dinyatakan positif, sembuh dan meninggal.
+                reply_text(event, "Hai #{profile['displayName']}, Terimakasih telah menambahkan kami sebagai teman. \n\n"+
+                    "Jika kalian ingin tau mengenai kami kalian bisa kenalan dengan kami dengan ketik \"about us\". \n\n"+
+                    "Dan Kalian bisa ketik \"Negara List\" atau \"Provinsi List\" untuk melihat semua daftar negara mana saja yang terkena dampak virus ini sob. \n\n"+
+                    "Selanjutnya, kalian bisa ketik \"Negara tujuan\" atau \"Provinsi tujuan\" untuk mengetahui berapa banyaknya orang yang dinyatakan positif, sembuh dan meninggal. \n\n"+
+                    "Serta kalian bisa ketik \"Global Data\" untuk mengetahui total data. atau bisa secara spesifik dengan \"global positif\", \"global sembuh\", \"global meninggal\"
                 ")
             else
                 reply_text(event, "Bot can't use profile API without user ID")
@@ -74,7 +78,7 @@ def handle_message(event)
             return reply_text(event, "Axe said, Good day Sir!")
         elsif (eventMsgText.include? "hi") || (eventMsgText.include? "hai")
             return reply_text(event, "Hai, juga zheyeng")
-        elsif (eventMsgText.include? "country")
+        elsif (eventMsgText.include? "negara")
             if (eventMsgText.include? "list")
                 countries = []
                 api_handler.each do |item|
