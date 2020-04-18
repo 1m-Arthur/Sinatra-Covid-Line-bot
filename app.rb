@@ -77,7 +77,6 @@ def handle_message(event)
         elsif (eventMsgText.include? "country")
             if (eventMsgText.include? "list")
                 countries = []
-                country_number = 0
                 api_handler.each do |item|
                     countries.concat([item['attributes']['Country_Region']])
                 end
@@ -444,7 +443,13 @@ def handle_message(event)
                 return reply_text(event, "kami belum kenal negara yang kamu tuju")
             end
         elsif (eventMsgText.include? "provinsi")
-            if (eventMsgText.include? "dki jakarta") || (eventMsgText.include? "jakarta")
+            if (eventMsgText.include? "list")
+                provinces = []
+                api_handler.each do |item|
+                    provinces.concat([item['attributes']['Provinsi']])
+                end
+                return reply_text(event, "Berikut adalah daftar-daftar provinsi yang kami ketahui: \n#{provinces.join("\n")}")
+            elsif (eventMsgText.include? "dki jakarta") || (eventMsgText.include? "jakarta")
                 return reply_text(event, provinceReply(0))
             elsif (eventMsgText.include? "jawa barat") || (eventMsgText.include? "jabar")
                 return reply_text(event, provinceReply(1))
@@ -530,8 +535,14 @@ def api_handler
     return jsonData
 end
 
+def api_handler_province
+    res = Net::HTTP.get_response(URI.parse("https://api.kawalcorona.com/indonesia/provinsi/"))
+    jsonData = JSON.parse(res.body)
+    return jsonData
+end
+
 def provinceReply (index)
-   apiHandlerIndex = api_handler[index] ['attributes']
+   apiHandlerIndex = api_handler_province[index]['attributes']
    data = "Provinsi #{apiHandlerIndex['Provinsi']}, \n" +
             "Data kasus positif: #{number_to_delimited(apiHandlerIndex['Kasus_Posi'])} \n" +
             "Data Kasus sembuh: #{number_to_delimited(apiHandlerIndex['Kasus_Semb'])} \n" +
