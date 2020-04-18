@@ -520,6 +520,21 @@ def handle_message(event)
             else
                 return reply_text(event, "kami belum punya data provinsi yang kamu tuju")
             end
+        elsif (eventMsgText.include? "global")
+            if (eventMsgText.include? "positif")
+                return reply_text(event, api_handler_global_confirm)
+            elsif (eventMsgText.include? "sembuh")
+                return reply_text(event, api_handler_global_recovered)
+            elsif (eventMsgText.include? "meninggal")
+                return reply_text(event, api_handler_global_deaths)
+            else
+                return reply_text(
+                                event, 
+                                    api_handler_global_confirm+ " \n" + 
+                                    api_handler_global_recovered+ " \n" +
+                                    api_handler_global_deaths+ " \n"
+                                )
+            end
         else
             return reply_text(event, "maaf sob, aku ga tau yang kalian tulis itu apa :(")
         end
@@ -528,6 +543,30 @@ def handle_message(event)
         return reply_text(event, "Perintah: \n#{event.type} belum kami kenali. tunggu update selanjutnya ya :(")
     end 
 end
+def api_handler_global_res (res)
+    jsonData = JSON.parse(res.body)
+    data = "#{jsonData['name']} : #{jsonData['value']}"
+    return data
+end
+
+def api_handler_global_recovered
+    res = Net::HTTP.get_response(URI.parse("https://api.kawalcorona.com/sembuh/"))
+    data = api_handler_global_res(res)
+    return data
+end
+
+def api_handler_global_deaths
+    res = Net::HTTP.get_response(URI.parse("https://api.kawalcorona.com/meninggal/"))
+    data = api_handler_global_res(res)
+    return data
+end
+
+def api_handler_global_confirm
+    res = Net::HTTP.get_response(URI.parse("https://api.kawalcorona.com/positif/"))
+    data = api_handler_global_res(res)
+    return data
+end
+
 
 def api_handler
     res = Net::HTTP.get_response(URI.parse("https://api.kawalcorona.com/"))
