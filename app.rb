@@ -74,10 +74,6 @@ def handle_message(event)
         eventMsgText = event.message['text'].downcase!
         if (eventMsgText.include? "about us")
             return reply_text(event, "Kami adalah bot yang dibuat dari bahasa pemrograman Ruby framework Sinatra. \nData kami berasal dari kawalcorona.com dan kami yakin data tersebut valid. \n")
-        elsif (eventMsgText.include? "hello")
-            return reply_text(event, "Axe said, Good day Sir!")
-        elsif (eventMsgText.include? "hi") || (eventMsgText.include? "hai")
-            return reply_text(event, "Hai, juga zheyeng")
         elsif (eventMsgText.include? "negara")
             if (eventMsgText.include? "list")
                 countries = []
@@ -539,6 +535,10 @@ def handle_message(event)
                                     api_handler_global_deaths+ " \n"
                                 )
             end
+        elsif (eventMsgText.include? "hi") || (eventMsgText.include? "hai")
+            return reply_text(event, "Hai, juga zheyeng")
+        elsif (eventMsgText.include? "hello")
+            return reply_text(event, "Axe said, Good day Sir!")
         else
             return reply_text(event, "maaf sob, aku ga tau yang kalian tulis itu apa :(")
         end
