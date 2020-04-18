@@ -445,7 +445,7 @@ def handle_message(event)
         elsif (eventMsgText.include? "provinsi")
             if (eventMsgText.include? "list")
                 provinces = []
-                api_handler.each do |item|
+                api_handler_province.each do |item|
                     provinces.concat([item['attributes']['Provinsi']])
                 end
                 return reply_text(event, "Berikut adalah daftar-daftar provinsi yang kami ketahui: \n#{provinces.join("\n")}")
