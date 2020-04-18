@@ -516,7 +516,7 @@ def handle_message(event)
             elsif (eventMsgText.include? "maluku utara")
                 return reply_text(event, provinceReply(32))
             elsif (eventMsgText.include? "nusa tenggara timur") || (eventMsgText.include? "ntt")
-                return reply_text(event, provinceReply(32))
+                return reply_text(event, provinceReply(33))
             else
                 return reply_text(event, "kami belum punya data provinsi yang kamu tuju")
             end
