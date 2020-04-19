@@ -79,7 +79,7 @@ def handle_message(event)
             if (eventMsgText.include? "list")
                 url = URI("https://covid-193.p.rapidapi.com/countries")
     
-                http = Net::HTTP.new(url.host)
+                http = Net::HTTP.new(url.host, url.port)
                 http.use_ssl = true
                 http.verify_mode = OpenSSL::SSL::VERIFY_NONE
 
