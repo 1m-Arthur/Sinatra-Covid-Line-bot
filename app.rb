@@ -84,8 +84,7 @@ def handle_message(event)
                     countries.concat([item])
                 end
                 return reply_text(event, ["
-                        Berikut adalah daftar-daftar negara yang kami ketahui: \n#{countries.collect{|item| (countryCounter += 1).to_s + ". " +item }.join("\n")}",
-                        countries.collect{|item| (countryCounter += 1).to_s + ". " +item }.last(lastDataCountry)
+                        Berikut adalah daftar-daftar negara yang kami ketahui: \n#{countries.collect{|item| (countryCounter += 1).to_s + ". " +item }.join("\n")}"
                     ])
             elsif ((eventMsgText.include? "us") || (eventMsgText.include? "usa") || (eventMsgText.include? "united states"))
                 return reply_text(event, countryReply(0))
