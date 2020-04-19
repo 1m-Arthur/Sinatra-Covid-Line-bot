@@ -83,7 +83,7 @@ def handle_message(event)
             
                 request = Net::HTTP::Get.new(url)
                 request["x-rapidapi-host"] = 'covid-193.p.rapidapi.com'
-                request["x-rapidapi-key"] = ENV['X_RAPIDAPI_KEY']
+                request["x-rapidapi-key"] = "dad91242e4msh6e2c25e35a030a7p1f568cjsn98be225191e1"
             
                 response = http.request(request)
                 jsonData = JSON.parse(response.read_body)
