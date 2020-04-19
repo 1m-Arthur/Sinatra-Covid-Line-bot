@@ -78,6 +78,7 @@ def handle_message(event)
         elsif (eventMsgText.include? "negara")
             if (eventMsgText.include? "list")
                 countries = []
+                countryCounter = 0
                 lastDataCountry = api_handler_countrylist.count - 100
                 api_handler_countrylist.each do |item|
                     countries.concat([item])
