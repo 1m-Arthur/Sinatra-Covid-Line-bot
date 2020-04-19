@@ -4,6 +4,7 @@ require 'net/http'
 require 'json'
 require 'active_support'
 require 'date'
+require 'openssl'
 
 include ActiveSupport::NumberHelper
 
@@ -73,14 +74,24 @@ def handle_message(event)
     when Line::Bot::Event::MessageType::Text
         eventMsgText = event.message['text'].downcase!
         if (eventMsgText.include? "about us")
-            return reply_text(event, "Kami adalah bot yang dibuat dari bahasa pemrograman Ruby framework Sinatra. \nData kami berasal dari kawalcorona.com dan kami yakin data tersebut valid. \n")
+            return reply_text(event, "Kami adalah bot yang dibuat dari bahasa pemrograman Ruby framework Sinatra. \nData kami berasal dari kawalcorona.com dan api-sports.io. dan kami yakin data tersebut valid. \n")
         elsif (eventMsgText.include? "negara")
             if (eventMsgText.include? "list")
+                url = URI("https://covid-193.p.rapidapi.com/countries")
+    
+                http = Net::HTTP.new(url.host)
+            
+                request = Net::HTTP::Get.new(url)
+                request["x-rapidapi-host"] = 'covid-193.p.rapidapi.com'
+                request["x-rapidapi-key"] = ENV['X_RAPIDAPI_KEY']
+            
+                response = http.request(request)
+                jsonData = JSON.parse(response.read_body)
                 countries = []
-                api_handler.each do |item|
-                    countries.concat([item['attributes']['Country_Region']])
+                jsonData['response'].each do |item|
+                    countries.concat([item.to_s])
                 end
-                return reply_text(event, "Berikut adalah daftar-daftar negara yang kami ketahui: \n#{countries.join("\n")}")
+                return reply_text(event, "Berikut adalah daftar-daftar negara yang kami ketahui: \n"+countries.join("\n"))
             elsif ((eventMsgText.include? "us") || (eventMsgText.include? "usa") || (eventMsgText.include? "united states"))
                 return reply_text(event, countryReply(0))
             elsif ((eventMsgText.include? "spain") || (eventMsgText.include? "spanyol"))
@@ -167,7 +178,7 @@ def handle_message(event)
                 return reply_text(event, countryReply(41))
             elsif (eventMsgText.include? "qatar")
                 return reply_text(event, countryReply(42))
-            elsif (eventMsgText.include? "ukraine") || (eventMsgText.include? "ukraina")
+            elsif (eventMsgText.include? "ukraine") || (eventMsgText.include? ukraina)
                 return reply_text(event, countryReply(43))
             elsif (eventMsgText.include? "dominican republic")
                 return reply_text(event, countryReply(44))
@@ -572,11 +583,6 @@ def api_handler_global_confirm
 end
 
 
-def api_handler
-    res = Net::HTTP.get_response(URI.parse("https://api.kawalcorona.com/"))
-    jsonData = JSON.parse(res.body)
-    return jsonData
-end
 
 def api_handler_province
     res = Net::HTTP.get_response(URI.parse("https://api.kawalcorona.com/indonesia/provinsi/"))
