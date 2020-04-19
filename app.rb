@@ -83,8 +83,9 @@ def handle_message(event)
                 api_handler_countrylist.each do |item|
                     countries.concat([item])
                 end
-                return reply_text(event, ["
-                        Berikut adalah daftar-daftar negara yang kami ketahui: \n#{countries.collect{|item| (countryCounter += 1).to_s + ". " +item }.first(100).join("\n")}"
+                return reply_text(event, [
+                    "Berikut adalah daftar-daftar negara yang kami ketahui: \n#{countries.collect{|item| (countryCounter += 1).to_s + ". " +item }.first(100).join("\n")}",
+                    countries.collect{|item| (countryCounter += 1).to_s + ". " +item }.last(lastDataCountry).join("\n")
                     ])
             elsif ((eventMsgText.include? "us") || (eventMsgText.include? "usa") || (eventMsgText.include? "united states"))
                 return reply_text(event, countryReply(0))
