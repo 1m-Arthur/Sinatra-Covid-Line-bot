@@ -74,26 +74,17 @@ def handle_message(event)
     when Line::Bot::Event::MessageType::Text
         eventMsgText = event.message['text'].downcase!
         if (eventMsgText.include? "about us")
-            return reply_text(event, "Kami adalah bot yang dibuat dari bahasa pemrograman Ruby framework Sinatra. \nData kami berasal dari kawalcorona.com dan api-sports.io. dan kami yakin data tersebut valid. \n")
+            return reply_text(event, "Kami adalah bot yang dibuat dari bahasa pemrograman Ruby framework Sinatra. \nData kami berasal dari kawalcorona.com dan kami yakin data tersebut valid. \n")
         elsif (eventMsgText.include? "negara")
             if (eventMsgText.include? "list")
-                url = URI("https://covid-193.p.rapidapi.com/countries")
-    
-                http = Net::HTTP.new(url.host, url.port)
-                http.use_ssl = true
-                http.verify_mode = OpenSSL::SSL::VERIFY_NONE
-
-                request = Net::HTTP::Get.new(url)
-                request["x-rapidapi-host"] = 'covid-193.p.rapidapi.com'
-                request["x-rapidapi-key"] = ENV['X_RAPIDAPI_KEY']
-            
-                response = http.request(request)
-                jsonData = JSON.parse(response.read_body)
                 countries = []
-                jsonData['response'].each do |item|
-                    countries.concat([item.to_s])
+                # api_handler.each do |item|
+                #     countries.concat([item['attributes']['Country_Region']])
+                # end
+                api_handler_countrylist.each do |item|
+                    countries.concat([item])
                 end
-                return reply_text(event, "Berikut adalah daftar-daftar negara yang kami ketahui: \n"+countries.join("\n"))
+                return reply_text(event, "Berikut adalah daftar-daftar negara yang kami ketahui: \n#{countries.join("\n")}")
             elsif ((eventMsgText.include? "us") || (eventMsgText.include? "usa") || (eventMsgText.include? "united states"))
                 return reply_text(event, countryReply(0))
             elsif ((eventMsgText.include? "spain") || (eventMsgText.include? "spanyol"))
@@ -560,6 +551,23 @@ def handle_message(event)
         return reply_text(event, "Perintah: \n#{event.type} belum kami kenali. tunggu update selanjutnya ya :(")
     end 
 end
+
+def api_handler_countrylist
+    url = URI("https://covid-193.p.rapidapi.com/countries")
+
+    http = Net::HTTP.new(url.host, url.port)
+    http.use_ssl = true
+    http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+
+    request = Net::HTTP::Get.new(url)
+    request["x-rapidapi-host"] = 'covid-193.p.rapidapi.com'
+    request["x-rapidapi-key"] = ENV['X_RAPIDAPI_KEY']
+
+    response = http.request(request)
+    jsonData = JSON.parse(response.read_body)
+    return jsonData['response']
+end
+
 def api_handler_global_res (res)
     jsonData = JSON.parse(res.body)
     data = "#{jsonData['name']} : #{jsonData['value']}"
@@ -585,6 +593,11 @@ def api_handler_global_confirm
 end
 
 
+def api_handler
+    res = Net::HTTP.get_response(URI.parse("https://api.kawalcorona.com/"))
+    jsonData = JSON.parse(res.body)
+    return jsonData
+end
 
 def api_handler_province
     res = Net::HTTP.get_response(URI.parse("https://api.kawalcorona.com/indonesia/provinsi/"))
