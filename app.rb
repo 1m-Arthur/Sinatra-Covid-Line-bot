@@ -79,13 +79,14 @@ def handle_message(event)
             if (eventMsgText.include? "list")
                 countries = []
                 countryCounter = 0
-                lastDataCountry = api_handler_countrylist.count - 100
+                lastDataCountry = api_handler_countrylist.count - 120
                 api_handler_countrylist.each do |item|
-                    countries.concat([item])
+                    countryCounter += 1
+                    countries.concat([countryCounter.to_s+". "+item])
                 end
-                return reply_text(event, [
-                    "Berikut adalah daftar-daftar negara yang kami ketahui: \n#{countries.collect{|item| (countryCounter += 1).to_s + ". " +item }.first(100).join("\n")}",
-                    countries.collect{|item| (countryCounter += 1).to_s + ". " +item }.last(lastDataCountry).join("\n")
+                reply_text(event,[
+                    "Berikut adalah daftar-daftar negara yang kami ketahui: \n"+countries.first(120).join("\n"), 
+                    "#{countries.last(lastDataCountry).join("\n")}"
                     ])
             elsif ((eventMsgText.include? "us") || (eventMsgText.include? "usa") || (eventMsgText.include? "united states"))
                 return reply_text(event, countryReply(0))
