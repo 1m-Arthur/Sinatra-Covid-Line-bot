@@ -90,7 +90,7 @@ def handle_message(event)
                     "#{countries.last(lastDataCountry).join("\n")}"
                     ])
             elsif (eventMsgText.include? "afghanistan")
-                return reply_text(event, countryReply(titleize(eventMsgText)))
+                return reply_text(event, countryReply(titleize("afghanistan")))
             elsif (eventMsgText.include? "albania")
                 return reply_text(event, countryReply(titleize(eventMsgText)))
             elsif (eventMsgText.include? "algeria")
@@ -301,14 +301,14 @@ def provinceReply (index)
     return data
 end
 
-def countryReply (country)
-    apiHandlerIndex = api_handle_singlecountry("China")
+def countryReply(country)
+    apiHandlerIndex = api_handle_singlecountry(country)
     apiHandlerIndexCase = apiHandlerIndex['cases']
     data = "Negara #{apiHandlerIndex['country']}, \n" +
             "Total terkonfirmasi: #{number_to_delimited(apiHandlerIndexCase['total'])} \n"+
             "Data pasien aktif: #{number_to_delimited(apiHandlerIndexCase['active'])} (#{apiHandlerIndexCase['new']})\n"+ 
             "Data pasien kritis: #{number_to_delimited(apiHandlerIndexCase['critical'])} \n"+
-            "Data meninggal: #{number_to_delimited(apiHandlerIndex['deaths']['total'])} (#{apiHandlerIndex['deaths']['new']}) \n"+ 
+            "Data meninggal: #{number_to_delimited(apiHandlerIndex['deaths']['total'])} #{"("apiHandlerIndex['deaths']['new']")"} \n"+ 
             "Data sembuh: #{number_to_delimited(apiHandlerIndexCase['recovered'])} \n"+
             "Update terakhir: #{apiHandlerIndex['day']}"
     return data
