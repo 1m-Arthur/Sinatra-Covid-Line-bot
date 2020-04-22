@@ -78,7 +78,7 @@ def handle_message(event)
             return reply_text(
                             event, 
                             "Kami adalah bot yang dibuat dari bahasa pemrograman Ruby framework Sinatra. \n"+
-                            "Data kami berasal dari kawalcorona.com (local) serta api-sports.io (global) dan kami yakin data tersebut valid. \n"+
+                            "Data kami berasal dari kawalcorona.com (local) serta api-sports.io (global) dan kami yakin data tersebut valid. \n"
                             )
         elsif (eventMsgText.include? "negara")
             if (eventMsgText.include? "list")
