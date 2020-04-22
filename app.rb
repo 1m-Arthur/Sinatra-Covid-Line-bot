@@ -239,8 +239,8 @@ def api_handler_countrylist
     return jsonData['response']
 end
 
-def api_handle_singlecountry country
-    url = URI("https://covid-193.p.rapidapi.com/statistics?country="+country)
+def api_handle_singlecountry (country)
+    url = URI("https://covid-193.p.rapidapi.com/statistics?country="+country.to_s)
 
     http = Net::HTTP.new(url.host, url.port)
     http.use_ssl = true
