@@ -302,7 +302,7 @@ def provinceReply (index)
 end
 
 def countryReply (country)
-    apiHandlerIndex = api_handle_singlecountry(country)
+    apiHandlerIndex = api_handle_singlecountry("China")
     apiHandlerIndexCase = apiHandlerIndex['cases']
     data = "Negara #{apiHandlerIndex['country']}, \n" +
             "Total terkonfirmasi: #{number_to_delimited(apiHandlerIndexCase['total'])} \n"+
@@ -310,6 +310,6 @@ def countryReply (country)
             "Data pasien kritis: #{number_to_delimited(apiHandlerIndexCase['critical'])} \n"+
             "Data meninggal: #{number_to_delimited(apiHandlerIndex['deaths']['total'])} (#{apiHandlerIndex['deaths']['new']}) \n"+ 
             "Data sembuh: #{number_to_delimited(apiHandlerIndexCase['recovered'])} \n"+
-            "Update terakhir: #{apiHandlerIndexCase['day']}"
+            "Update terakhir: #{apiHandlerIndex['day']}"
     return data
 end
