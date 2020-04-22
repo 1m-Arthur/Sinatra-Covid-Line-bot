@@ -5,6 +5,7 @@ require 'json'
 require 'active_support'
 require 'date'
 require 'openssl'
+require './api_handler'
 
 include ActiveSupport::NumberHelper
 
@@ -74,7 +75,11 @@ def handle_message(event)
     when Line::Bot::Event::MessageType::Text
         eventMsgText = event.message['text'].downcase!
         if (eventMsgText.include? "about us")
-            return reply_text(event, "Kami adalah bot yang dibuat dari bahasa pemrograman Ruby framework Sinatra. \nData kami berasal dari kawalcorona.com dan kami yakin data tersebut valid. \n")
+            return reply_text(
+                            event, 
+                            "Kami adalah bot yang dibuat dari bahasa pemrograman Ruby framework Sinatra. \n"+
+                            "Data kami berasal dari kawalcorona.com (local) serta api-sports.io (global) dan kami yakin data tersebut valid. \n"+
+                            )
         elsif (eventMsgText.include? "negara")
             if (eventMsgText.include? "list")
                 countries = []
@@ -532,73 +537,73 @@ def handle_message(event)
                     provinces.concat([item['attributes']['Provinsi']])
                 end
                 return reply_text(event, "Berikut adalah daftar-daftar provinsi yang kami ketahui: \n#{provinces.join("\n")}")
-            elsif (eventMsgText.include? "dki jakarta") || (eventMsgText.include? "jakarta")
-                return reply_text(event, provinceReply(0))
-            elsif (eventMsgText.include? "jawa barat") || (eventMsgText.include? "jabar")
-                return reply_text(event, provinceReply(1))
-            elsif (eventMsgText.include? "jawa timur")
-                return reply_text(event, provinceReply(2))
-            elsif (eventMsgText.include? "sulawesi selatan") || (eventMsgText.include? "sulsel")
-                return reply_text(event, provinceReply(3))
-            elsif (eventMsgText.include? "banten")
-                return reply_text(event, provinceReply(4))
-            elsif (eventMsgText.include? "jawa tengah")
-                return reply_text(event, provinceReply(5))
-            elsif (eventMsgText.include? "bali")
-                return reply_text(event, provinceReply(6))
-            elsif (eventMsgText.include? "papua")
-                return reply_text(event, provinceReply(7))
-            elsif (eventMsgText.include? "sumatera utara") || (eventMsgText.include? "sumut")
-                return reply_text(event, provinceReply(8))
-            elsif (eventMsgText.include? "kalimantan selatan") || (eventMsgText.include? "kalsel")
-                return reply_text(event, provinceReply(9))
-            elsif (eventMsgText.include? "daerah istimewa yogyakarta") || (eventMsgText.include? "jogja") || (eventMsgText.include? "yogyakarta")
-                return reply_text(event, provinceReply(10))
-            elsif (eventMsgText.include? "sumatera barat") || (eventMsgText.include? "sumbar")
-                return reply_text(event, provinceReply(11))
-            elsif (eventMsgText.include? "kepulauan riau")
-                return reply_text(event, provinceReply(12))
-            elsif (eventMsgText.include? "sumatera selatan") || (eventMsgText.include? "sumsel")
-                return reply_text(event, provinceReply(13))
-            elsif (eventMsgText.include? "nusa tenggara barat") || (eventMsgText.include? "ntb")
-                return reply_text(event, provinceReply(14))
-            elsif (eventMsgText.include? "kalimantan utara") || (eventMsgText.include? "kalut")
-                return reply_text(event, provinceReply(15))
-            elsif (eventMsgText.include? "kalimantan timur") || (eventMsgText.include? "kaltim")
-                return reply_text(event, provinceReply(16))
-            elsif (eventMsgText.include? "kalimantan tengah") || (eventMsgText.include? "kalteng")
-                return reply_text(event, provinceReply(17))
-            elsif (eventMsgText.include? "sulawesi tenggara")
-                return reply_text(event, provinceReply(18))
-            elsif (eventMsgText.include? "riau")
-                return reply_text(event, provinceReply(19))
-            elsif (eventMsgText.include? "lampung")
-                return reply_text(event, provinceReply(20))
-            elsif (eventMsgText.include? "sulawesi tengah") || (eventMsgText.include? "sulteng")
-                return reply_text(event, provinceReply(21))
-            elsif (eventMsgText.include? "kalimantan barat") || (eventMsgText.include? "kalbar")
-                return reply_text(event, provinceReply(22))
-            elsif (eventMsgText.include? "sulawesi utara") || (eventMsgText.include? "sulut")
-                return reply_text(event, provinceReply(23))
-            elsif (eventMsgText.include? "maluku")
-                return reply_text(event, provinceReply(24))
-            elsif (eventMsgText.include? "jambi")
-                return reply_text(event, provinceReply(25))
-            elsif (eventMsgText.include? "sulawesi barat") || (eventMsgText.include? "sulbar")
-                return reply_text(event, provinceReply(26))
-            elsif (eventMsgText.include? "kepulauan bangka belitung") || (eventMsgText.include? "bangka belitung") || (eventMsgText.include? "belitung")
-                return reply_text(event, provinceReply(27))
             elsif (eventMsgText.include? "aceh")
-                return reply_text(event, provinceReply(28))
-            elsif (eventMsgText.include? "papua barat")
-                return reply_text(event, provinceReply(29))
+                return reply_text(event, provinceReply(0))
+            elsif (eventMsgText.include? "sumatera utara") || (eventMsgText.include? "sumut")
+                return reply_text(event, provinceReply(1))
+            elsif (eventMsgText.include? "sumatera barat") || (eventMsgText.include? "sumbar")
+                return reply_text(event, provinceReply(2))
+            elsif (eventMsgText.include? "riau")
+                return reply_text(event, provinceReply(3))
+            elsif (eventMsgText.include? "jambi")
+                return reply_text(event, provinceReply(4))
+            elsif (eventMsgText.include? "sumatera selatan") || (eventMsgText.include? "sumsel")
+                return reply_text(event, provinceReply(5))
             elsif (eventMsgText.include? "bengkulu")
-                return reply_text(event, provinceReply(30))
-            elsif (eventMsgText.include? "gorontalo")
-                return reply_text(event, provinceReply(31))
-            elsif (eventMsgText.include? "maluku utara")
-                return reply_text(event, provinceReply(32))
+                return reply_text(event, provinceReply(6))
+            elsif (eventMsgText.include? "lampung")
+                return reply_text(event, provinceReply(7))
+            elsif (eventMsgText.include? "kepulauan bangka belitung") || (eventMsgText.include? "bangka belitung") || (eventMsgText.include? "belitung")
+                return reply_text(event, provinceReply(8))
+            elsif (eventMsgText.include? "kepulauan riau")
+                return reply_text(event, provinceReply(9))
+            elsif (eventMsgText.include? "dki jakarta") || (eventMsgText.include? "jakarta")
+                return reply_text(event, provinceReply(10))
+            elsif (eventMsgText.include? "jawa barat") || (eventMsgText.include? "jabar")
+                return reply_text(event, provinceReply(11))
+            elsif (eventMsgText.include? "jawa tengah")
+                return reply_text(event, provinceReply(12))
+            elsif (eventMsgText.include? "daerah istimewa yogyakarta") || (eventMsgText.include? "jogja") || (eventMsgText.include? "yogyakarta")
+                return reply_text(event, provinceReply(13))
+            elsif (eventMsgText.include? "jawa timur")
+                return reply_text(event, provinceReply(14))
+            elsif (eventMsgText.include? "banten")
+                return reply_text(event, provinceReply(15))
+            elsif (eventMsgText.include? "bali")
+                return reply_text(event, provinceReply(16))
+            elsif (eventMsgText.include? "nusa tenggara barat") || (eventMsgText.include? "ntb")
+                return reply_text(event, provinceReply(17))
             elsif (eventMsgText.include? "nusa tenggara timur") || (eventMsgText.include? "ntt")
+                return reply_text(event, provinceReply(18))
+            elsif (eventMsgText.include? "kalimantan barat") || (eventMsgText.include? "kalbar")
+                return reply_text(event, provinceReply(19))
+            elsif (eventMsgText.include? "kalimantan tengah") || (eventMsgText.include? "kalteng")
+                return reply_text(event, provinceReply(20))
+            elsif (eventMsgText.include? "kalimantan selatan") || (eventMsgText.include? "kalsel")
+                return reply_text(event, provinceReply(21))
+            elsif (eventMsgText.include? "kalimantan timur") || (eventMsgText.include? "kaltim")
+                return reply_text(event, provinceReply(22))
+            elsif (eventMsgText.include? "kalimantan utara") || (eventMsgText.include? "kalut")
+                return reply_text(event, provinceReply(23))
+            elsif (eventMsgText.include? "sulawesi utara") || (eventMsgText.include? "sulut")
+                return reply_text(event, provinceReply(24))
+            elsif (eventMsgText.include? "sulawesi tengah") || (eventMsgText.include? "sulteng")
+                return reply_text(event, provinceReply(25))
+            elsif (eventMsgText.include? "sulawesi selatan") || (eventMsgText.include? "sulsel")
+                return reply_text(event, provinceReply(26))
+            elsif (eventMsgText.include? "sulawesi tenggara")
+                return reply_text(event, provinceReply(27))
+            elsif (eventMsgText.include? "gorontalo")
+                return reply_text(event, provinceReply(28))
+            elsif (eventMsgText.include? "sulawesi barat") || (eventMsgText.include? "sulbar")
+                return reply_text(event, provinceReply(29))
+            elsif (eventMsgText.include? "maluku")
+                return reply_text(event, provinceReply(30))
+            elsif (eventMsgText.include? "maluku utara")
+                return reply_text(event, provinceReply(31))
+            elsif (eventMsgText.include? "papua barat")
+                return reply_text(event, provinceReply(32))
+            elsif (eventMsgText.include? "papua")
                 return reply_text(event, provinceReply(33))
             else
                 return reply_text(event, "kami belum punya data provinsi yang kamu tuju")
@@ -612,7 +617,7 @@ def handle_message(event)
                 return reply_text(event, api_handler_global_deaths)
             else
                 return reply_text(
-                                event, 
+                                    event, 
                                     api_handler_global_confirm+ " \n" + 
                                     api_handler_global_recovered+ " \n" +
                                     api_handler_global_deaths+ " \n"
@@ -631,81 +636,17 @@ def handle_message(event)
     end 
 end
 
-def api_handler_countrylist
-    url = URI("https://covid-193.p.rapidapi.com/countries")
-
-    http = Net::HTTP.new(url.host, url.port)
-    http.use_ssl = true
-    http.verify_mode = OpenSSL::SSL::VERIFY_NONE
-
-    request = Net::HTTP::Get.new(url)
-    request["x-rapidapi-host"] = 'covid-193.p.rapidapi.com'
-    request["x-rapidapi-key"] = ENV['X_RAPIDAPI_KEY']
-
-    response = http.request(request)
-    jsonData = JSON.parse(response.read_body)
-    return jsonData['response']
-end
-
-def api_handle_singlecountry (country)
-    url = URI("https://covid-193.p.rapidapi.com/statistics?country="+country.to_s)
-
-    http = Net::HTTP.new(url.host, url.port)
-    http.use_ssl = true
-    http.verify_mode = OpenSSL::SSL::VERIFY_NONE
-
-    request = Net::HTTP::Get.new(url)
-    request["x-rapidapi-host"] = 'covid-193.p.rapidapi.com'
-    request["x-rapidapi-key"] = ENV['X_RAPIDAPI_KEY']
-
-    response = http.request(request)
-    jsonData = JSON.parse(response.read_body)
-    return jsonData['response'][0]
-end
-
-def api_handler_global_res (res)
-    jsonData = JSON.parse(res.body)
-    data = "#{jsonData['name']} : #{jsonData['value']}"
-    return data
-end
-
-def api_handler_global_recovered
-    res = Net::HTTP.get_response(URI.parse("https://api.kawalcorona.com/sembuh/"))
-    data = api_handler_global_res(res)
-    return data
-end
-
-def api_handler_global_deaths
-    res = Net::HTTP.get_response(URI.parse("https://api.kawalcorona.com/meninggal/"))
-    data = api_handler_global_res(res)
-    return data
-end
-
-def api_handler_global_confirm
-    res = Net::HTTP.get_response(URI.parse("https://api.kawalcorona.com/positif/"))
-    data = api_handler_global_res(res)
-    return data
-end
-
-
-def api_handler
-    res = Net::HTTP.get_response(URI.parse("https://api.kawalcorona.com/"))
-    jsonData = JSON.parse(res.body)
-    return jsonData
-end
-
-def api_handler_province
-    res = Net::HTTP.get_response(URI.parse("https://api.kawalcorona.com/indonesia/provinsi/"))
-    jsonData = JSON.parse(res.body)
-    return jsonData
-end
-
 def provinceReply (index)
-   apiHandlerIndex = api_handler_province[index]['attributes']
-   data = "Provinsi #{apiHandlerIndex['Provinsi']}, \n" +
-            "Data kasus positif: #{number_to_delimited(apiHandlerIndex['Kasus_Posi'])} \n" +
-            "Data Kasus sembuh: #{number_to_delimited(apiHandlerIndex['Kasus_Semb'])} \n" +
-            "Data kasus meninggal: #{number_to_delimited(apiHandlerIndex['Kasus_Meni'])} \n"
+    provinces = []
+    fetch_global_data_http.each do |item|
+        provinces.concat(["kode"=>item['attributes']['Kode_Provi'], "prov" => item['attributes']['Provinsi'], "positif" => item['attributes']['Kasus_Posi'], "sembuh" => item['attributes']['Kasus_Semb'], "meninggal" => item['attributes']['Kasus_Meni']])
+    end
+   sortedProvinces = countries.sort_by{|e| e['kode'].to_i}
+   apiHandlerIndex = sortedProvinces[index]
+   data = "Provinsi #{apiHandlerIndex['prov']}, \n" +
+            "Data kasus positif: #{number_to_delimited(apiHandlerIndex['positif'])} \n" +
+            "Data Kasus sembuh: #{number_to_delimited(apiHandlerIndex['sembuh'])} \n" +
+            "Data kasus meninggal: #{number_to_delimited(apiHandlerIndex['meninggal'])} \n"
     return data
 end
 
