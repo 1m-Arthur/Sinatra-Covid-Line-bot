@@ -252,7 +252,7 @@ def api_handle_singlecountry (country)
 
     response = http.request(request)
     jsonData = JSON.parse(response.read_body)
-    return jsonData['response']
+    return jsonData['response'][0]
 end
 
 def api_handler_global_res (res)
