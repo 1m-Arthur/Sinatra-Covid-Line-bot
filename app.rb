@@ -638,7 +638,7 @@ end
 
 def provinceReply (index)
     provinces = []
-    fetch_global_data_http.each do |item|
+    api_handler_province.each do |item|
         provinces.concat(["kode"=>item['attributes']['Kode_Provi'], "prov" => item['attributes']['Provinsi'], "positif" => item['attributes']['Kasus_Posi'], "sembuh" => item['attributes']['Kasus_Semb'], "meninggal" => item['attributes']['Kasus_Meni']])
     end
    sortedProvinces = countries.sort_by{|e| e['kode'].to_i}
