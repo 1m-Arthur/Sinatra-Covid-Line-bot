@@ -308,7 +308,7 @@ def countryReply(country)
             "Total terkonfirmasi: #{number_to_delimited(apiHandlerIndexCase['total'])} \n"+
             "Data pasien aktif: #{number_to_delimited(apiHandlerIndexCase['active'])} (#{apiHandlerIndexCase['new']})\n"+ 
             "Data pasien kritis: #{number_to_delimited(apiHandlerIndexCase['critical'])} \n"+
-            "Data meninggal: #{number_to_delimited(apiHandlerIndex['deaths']['total'])} #{"("apiHandlerIndex['deaths']['new']")"} \n"+ 
+            "Data meninggal: #{number_to_delimited(apiHandlerIndex['deaths']['total'])} #{+"("+apiHandlerIndex['deaths']['new']+")"+} \n"+ 
             "Data sembuh: #{number_to_delimited(apiHandlerIndexCase['recovered'])} \n"+
             "Update terakhir: #{apiHandlerIndex['day']}"
     return data
