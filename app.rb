@@ -641,7 +641,7 @@ def provinceReply (index)
     api_handler_province.each do |item|
         provinces.concat(["kode"=>item['attributes']['Kode_Provi'], "prov" => item['attributes']['Provinsi'], "positif" => item['attributes']['Kasus_Posi'], "sembuh" => item['attributes']['Kasus_Semb'], "meninggal" => item['attributes']['Kasus_Meni']])
     end
-   sortedProvinces = countries.sort_by{|e| e['kode'].to_i}
+   sortedProvinces = provinces.sort_by{|e| e['kode'].to_i}
    apiHandlerIndex = sortedProvinces[index]
    data = "Provinsi #{apiHandlerIndex['prov']}, \n" +
             "Data kasus positif: #{number_to_delimited(apiHandlerIndex['positif'])} \n" +
