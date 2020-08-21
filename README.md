@@ -25,3 +25,8 @@ $ ruby app.rb
 ### Next update
 
 Data Rumah Sakit
+
+### Bot ID
+```
+@193hoocb
+```
